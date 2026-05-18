@@ -1,6 +1,6 @@
 <!--
 =======================================================
-TRANSALP 2027 TRAINING PLAN
+TRANSALP 2027 TRAINING PLAN — FULL APP
 =======================================================
 
 GITHUB PAGES SETUP — DO THIS ONCE:
@@ -17,1299 +17,825 @@ GITHUB PAGES SETUP — DO THIS ONCE:
 10. Wait 2 minutes, then your plan is live at:
     https://YOURUSERNAME.github.io/transalp-plan/transalp-training-plan.html
 
-ADD TO IPAD HOME SCREEN:
+ADD TO IPAD/IPHONE HOME SCREEN:
 1. Open the URL above in Safari
-2. Tap the Share button (box with arrow)
+2. Tap the Share button (box with arrow pointing up)
 3. Tap "Add to Home Screen"
 4. Name it "Transalp 2027"
-5. Done — it sits on your home screen like an app
+5. Done — works like an app, works offline
 
-TO UPDATE THE PLAN IN FUTURE:
-1. Go to your repo on github.com
-2. Click the file name
-3. Click the pencil icon (Edit)
-4. Or upload a new version of the file
-5. Changes go live within a minute
-
+DATA NOTE: All your logs (sessions, weights, food) are saved
+locally in your browser's storage. They persist between visits
+on the same device/browser.
 =======================================================
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Transalp 2027 — Training Plan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Transalp 2027">
+<title>Transalp 2027</title>
 <style>
-  :root {
-    --bg: #0f1117;
-    --card: #1a1d27;
-    --card-alt: #1e2130;
-    --accent: #e85d26;
-    --accent-soft: #ff7a45;
-    --gold: #f5a623;
-    --green: #2ecc71;
-    --blue: #4a9fd4;
-    --purple: #9b59b6;
-    --text: #eaeaea;
-    --muted: #9a9fb0;
-    --border: #2a2d3a;
-    --font-body: Georgia, 'Times New Roman', serif;
-    --font-mono: 'Courier New', Courier, monospace;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 17px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* HEADER */
-  .header {
-    background: linear-gradient(135deg, #1a1d27, #0f1117);
-    border-bottom: 3px solid var(--accent);
-    padding: 24px 20px 20px;
-  }
-
-  .header-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: var(--accent);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-  }
-
-  .header-title {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1.2;
-    margin-bottom: 6px;
-  }
-
-  .header-subtitle {
-    font-family: var(--font-mono);
-    font-size: 14px;
-    color: var(--muted);
-    font-weight: 400;
-    margin-bottom: 16px;
-  }
-
-  .stats-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .stat-item { text-align: left; }
-
-  .stat-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  .stat-value {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1.2;
-  }
-
-  /* TABS */
-  .tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-    background: var(--card);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .tab-btn {
-    flex: 1;
-    padding: 16px 4px;
-    background: none;
-    border: none;
-    border-bottom: 3px solid transparent;
-    color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 2px;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .tab-btn.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-  }
-
-  /* CONTENT */
-  .content {
-    padding: 20px 16px;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .section-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-
-  /* CARDS */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    margin-bottom: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: border-color 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .card-header {
-    padding: 16px 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .day-label {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    min-width: 42px;
-    text-transform: uppercase;
-  }
-
-  .card-title-block { flex: 1; }
-
-  .card-title {
-    font-size: 17px;
-    font-weight: 700;
-    line-height: 1.3;
-  }
-
-  .card-meta {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 3px;
-  }
-
-  .badge {
-    font-family: var(--font-mono);
-    font-size: 9px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  /* EXPANDED CONTENT */
-  .card-body {
-    display: none;
-    padding: 0 18px 18px;
-    border-top: 1px solid var(--border);
-  }
-
-  .card-body.open { display: block; }
-
-  .detail-list {
-    margin-top: 14px;
-    list-style: none;
-  }
-
-  .detail-list li {
-    font-size: 15px;
-    color: var(--text);
-    padding: 6px 0 6px 14px;
-    border-left: 2px solid var(--border);
-    margin-bottom: 5px;
-    line-height: 1.5;
-  }
-
-  .subsection-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin: 16px 0 8px;
-  }
-
-  .exercise-item {
-    font-size: 14px;
-    color: var(--text);
-    padding: 7px 10px;
-    background: var(--card-alt);
-    border-radius: 6px;
-    margin-bottom: 5px;
-    line-height: 1.4;
-  }
-
-  .key-note {
-    margin-top: 14px;
-    padding: 12px 14px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-style: italic;
-    line-height: 1.5;
-  }
-
-  .sub-card {
-    margin-top: 14px;
-    padding: 14px;
-    background: var(--card-alt);
-    border-radius: 8px;
-  }
-
-  /* PHASE CARDS */
-  .phase-header {
-    padding: 18px 18px;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    cursor: pointer;
-  }
-
-  .phase-title-block { flex: 1; }
-
-  .phase-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 2px;
-    margin-bottom: 4px;
-    text-transform: uppercase;
-  }
-
-  .phase-title {
-    font-size: 22px;
-    font-weight: 700;
-  }
-
-  .phase-badges {
-    display: flex;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
-  .phase-body {
-    display: none;
-    padding: 0 18px 18px;
-    border-top: 1px solid var(--border);
-  }
-
-  .phase-body.open { display: block; }
-
-  .phase-goal {
-    font-size: 15px;
-    color: var(--text);
-    font-style: italic;
-    line-height: 1.6;
-    margin-top: 14px;
-    margin-bottom: 14px;
-  }
-
-  .phase-section {
-    margin-bottom: 14px;
-  }
-
-  .phase-section-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-
-  .phase-section-text {
-    font-size: 15px;
-    color: var(--text);
-    line-height: 1.6;
-  }
-
-  .highlight-box {
-    padding: 14px;
-    border-radius: 8px;
-    border-left: 4px solid;
-    margin-bottom: 12px;
-  }
-
-  .highlight-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-
-  .highlight-text {
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--text);
-  }
-
-  .notes-list {
-    list-style: none;
-    margin-top: 8px;
-  }
-
-  .notes-list li {
-    font-size: 14px;
-    color: var(--text);
-    padding: 5px 0 5px 14px;
-    border-left: 2px solid var(--border);
-    margin-bottom: 5px;
-    line-height: 1.5;
-  }
-
-  /* TIMELINE */
-  .timeline {
-    position: relative;
-    padding-left: 28px;
-  }
-
-  .timeline-line {
-    position: absolute;
-    left: 8px;
-    top: 8px;
-    bottom: 8px;
-    width: 2px;
-    background: var(--border);
-  }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 24px;
-  }
-
-  .timeline-dot {
-    position: absolute;
-    left: -24px;
-    top: 6px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: 2px solid var(--bg);
-  }
-
-  .timeline-date {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 2px;
-    margin-bottom: 4px;
-    text-transform: uppercase;
-  }
-
-  .timeline-label {
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.3;
-  }
-
-  /* HERO */
-  .hero-box {
-    margin-top: 24px;
-    padding: 28px 20px;
-    border: 1px solid var(--accent);
-    border-radius: 12px;
-    text-align: center;
-    background: linear-gradient(135deg, rgba(232,93,38,0.1), rgba(245,166,35,0.1));
-  }
-
-  .hero-emoji { font-size: 40px; margin-bottom: 10px; }
-
-  .hero-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-
-  .hero-title {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-
-  .hero-sub {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 20px;
-  }
-
-  .hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-  }
-
-  .hero-stat-value {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-
-  .hero-stat-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  /* NUTRITION TAB */
-  .nutrition-block {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px;
-    margin-bottom: 14px;
-  }
-
-  .nutrition-title {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-
-  .nutrition-target {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--accent);
-    margin-bottom: 12px;
-  }
-
-  .meal-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .meal-row:last-child { border-bottom: none; }
-
-  .meal-time {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--muted);
-    min-width: 80px;
-    padding-top: 2px;
-  }
-
-  .meal-detail { flex: 1; }
-
-  .meal-name {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 2px;
-  }
-
-  .meal-desc {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  .meal-protein {
-    font-family: var(--font-mono);
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--green);
-    white-space: nowrap;
-  }
-
-  .protein-total {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 2px solid var(--accent);
-  }
-
-  .protein-total-label {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-
-  .protein-total-value {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-
-  /* NOTEBOOK */
-  .notebook-page {
-    background: #f5f0e8;
-    color: #2a2a2a;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 14px;
-    border-left: 6px solid var(--accent);
-    font-family: Georgia, serif;
-  }
-
-  .notebook-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 14px;
-    font-family: var(--font-mono);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-size: 11px;
-    color: var(--accent);
-  }
-
-  .notebook-field {
-    border-bottom: 1px solid #c8bfa8;
-    padding: 8px 0;
-    margin-bottom: 8px;
-    font-size: 15px;
-    color: #4a4a4a;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-
-  .notebook-field-label {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: #8a7a6a;
-    min-width: 80px;
-    padding-top: 2px;
-    letter-spacing: 1px;
-  }
-
-  .notebook-field-dots {
-    flex: 1;
-    border-bottom: 1px dotted #c8bfa8;
-    min-height: 24px;
-  }
-
-  /* TIMELINE BAR */
-  .timeline-bar {
-    display: flex;
-    height: 10px;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 24px;
-  }
-
-  .timeline-bar-segment {
-    flex: 1;
-  }
-
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
-  /* Chevron */
-  .chevron {
-    font-size: 14px;
-    color: var(--muted);
-    transition: transform 0.2s;
-    flex-shrink: 0;
-  }
-
-  .chevron.open { transform: rotate(180deg); }
+:root {
+  --bg: #0c0e14;
+  --card: #151820;
+  --card2: #1c1f2e;
+  --accent: #e85d26;
+  --gold: #f0a500;
+  --green: #27c97a;
+  --blue: #4a9fd4;
+  --purple: #8b5cf6;
+  --text: #f0f0f0;
+  --muted: #6b7280;
+  --border: #232636;
+  --font: Georgia, 'Times New Roman', serif;
+  --mono: 'Courier New', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; }
+body { display: flex; flex-direction: column; height: 100vh; height: -webkit-fill-available; }
+
+/* HEADER */
+.hdr { background: linear-gradient(135deg,#151820,#0c0e14); border-bottom: 2px solid var(--accent); padding: 12px 16px 10px; flex-shrink: 0; }
+.hdr-row { display: flex; align-items: center; justify-content: space-between; }
+.hdr-title { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+.hdr-title span { color: var(--accent); }
+.hdr-sub { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: 1px; }
+.hdr-stats { display: flex; gap: 16px; margin-top: 8px; }
+.hs { text-align: left; }
+.hs-v { font-size: 16px; font-weight: 700; color: var(--accent); line-height: 1; }
+.hs-l { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+/* SCROLL */
+.scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 14px 14px 90px; }
+
+/* BOTTOM NAV */
+.bnav { display: flex; background: #0a0c10; border-top: 1px solid var(--border); flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom,0px); }
+.nb { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 2px 8px; background: none; border: none; color: var(--muted); font-family: var(--mono); font-size: 8px; letter-spacing: 1px; cursor: pointer; gap: 3px; transition: color 0.15s; }
+.nb.active { color: var(--accent); }
+.ni { font-size: 17px; line-height: 1; }
+
+/* TABS */
+.tc { display: none; }
+.tc.active { display: block; }
+
+/* CARDS */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+.ch { padding: 14px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.cb { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); }
+.cb.open { display: block; }
+.ct { font-size: 17px; font-weight: 700; }
+.cm { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+.dl { list-style: none; margin-top: 12px; }
+.dl li { font-size: 15px; padding: 5px 0 5px 12px; border-left: 2px solid var(--border); margin-bottom: 4px; line-height: 1.5; }
+.ei { font-size: 14px; padding: 7px 10px; background: var(--card2); border-radius: 6px; margin-bottom: 4px; line-height: 1.4; }
+.kn { margin-top: 12px; padding: 10px 12px; border-radius: 8px; font-size: 14px; font-style: italic; line-height: 1.5; }
+.sc { margin-top: 12px; padding: 12px; background: var(--card2); border-radius: 8px; }
+.lbl { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.sl { font-family: var(--mono); font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 12px; }
+.bdg { font-family: var(--mono); font-size: 9px; padding: 3px 7px; border-radius: 4px; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0; }
+.chv { font-size: 12px; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
+.chv.open { transform: rotate(180deg); }
+
+/* TRACKER */
+.wknav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.wkbtn { background: var(--card2); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 6px; font-family: var(--mono); font-size: 12px; cursor: pointer; }
+.srow { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.2s; }
+.srow.done { border-color: var(--green); background: rgba(39,201,122,0.05); }
+.scheck { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; transition: all 0.2s; }
+.srow.done .scheck { border-color: var(--green); background: var(--green); }
+.pbar { background: var(--card2); border-radius: 4px; height: 8px; margin: 12px 0 6px; overflow: hidden; }
+.pfill { height: 100%; border-radius: 4px; background: var(--green); transition: width 0.4s; }
+.stbox { display: flex; gap: 10px; margin-bottom: 16px; }
+.stitem { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
+.stv { font-size: 24px; font-weight: 700; color: var(--accent); }
+.stl { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+.hwk { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+.hdots { display: flex; gap: 5px; margin-top: 8px; }
+.hdot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* EXERCISES */
+.exrow { background: var(--card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+.exh { padding: 13px 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.exb { display: none; padding: 0 15px 15px; border-top: 1px solid var(--border); }
+.exb.open { display: block; }
+.linp { flex: 1; background: var(--card2); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 6px; font-family: var(--mono); font-size: 15px; text-align: center; }
+.linp:focus { outline: none; border-color: var(--accent); }
+.lbtn { background: var(--accent); color: white; border: none; padding: 10px 18px; border-radius: 6px; font-family: var(--mono); font-size: 13px; cursor: pointer; }
+.hrow { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.hrow:last-child { border-bottom: none; }
+.pbb { font-family: var(--mono); font-size: 9px; background: var(--gold); color: #000; padding: 2px 5px; border-radius: 3px; margin-left: 6px; }
+
+/* ACTIVITY */
+.atypes { display: flex; flex-wrap: wrap; gap: 7px; margin: 10px 0; }
+.abtn { padding: 8px 13px; background: var(--card2); border: 1px solid var(--border); color: var(--muted); border-radius: 20px; font-family: var(--mono); font-size: 10px; cursor: pointer; transition: all 0.15s; letter-spacing: 1px; }
+.abtn.sel { background: var(--accent); border-color: var(--accent); color: white; }
+.ainp { flex: 1; background: var(--card2); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 6px; font-family: var(--mono); font-size: 14px; }
+.ainp:focus { outline: none; border-color: var(--accent); }
+.asub { width: 100%; margin-top: 10px; background: var(--accent); color: white; border: none; padding: 13px; border-radius: 8px; font-family: var(--mono); font-size: 13px; letter-spacing: 2px; cursor: pointer; }
+.aent { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+
+/* FOOD */
+.fdnav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.fdnavbtn { background: var(--card2); border: 1px solid var(--border); color: var(--text); padding: 7px 12px; border-radius: 6px; font-family: var(--mono); font-size: 12px; cursor: pointer; }
+.ring-wrap { display: flex; flex-direction: column; align-items: center; padding: 16px 0 12px; }
+.ring { position: relative; width: 130px; height: 130px; }
+.ring-svg { transform: rotate(-90deg); }
+.rbg { fill: none; stroke: var(--card2); stroke-width: 12; }
+.rfill { fill: none; stroke: var(--green); stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+.rtxt { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.rv { font-size: 28px; font-weight: 700; line-height: 1; }
+.ru { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+.pbk { display: flex; gap: 6px; margin-bottom: 14px; }
+.pbs { flex: 1; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 6px; text-align: center; }
+.pbsv { font-size: 17px; font-weight: 700; color: var(--green); }
+.pbsl { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 1px; margin-top: 2px; text-transform: uppercase; }
+.mbtn { padding: 7px 12px; background: var(--card2); border: 1px solid var(--border); color: var(--muted); border-radius: 16px; font-family: var(--mono); font-size: 10px; cursor: pointer; letter-spacing: 1px; transition: all 0.15s; }
+.mbtn.sel { background: var(--gold); border-color: var(--gold); color: #000; }
+.qfs { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+.qfb { padding: 8px 11px; background: var(--card2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+.qfb:active { background: var(--gold); color: #000; }
+.qfn { font-weight: 600; font-size: 12px; }
+.qfp { font-family: var(--mono); font-size: 10px; color: var(--green); }
+.finp { flex: 1; background: var(--card2); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 6px; font-family: var(--mono); font-size: 13px; }
+.finp:focus { outline: none; border-color: var(--gold); }
+.pinp { width: 75px; background: var(--card2); border: 1px solid var(--border); color: var(--text); padding: 10px 10px; border-radius: 6px; font-family: var(--mono); font-size: 14px; text-align: center; }
+.pinp:focus { outline: none; border-color: var(--gold); }
+.fsub { width: 100%; margin-top: 10px; background: var(--gold); color: #000; border: none; padding: 13px; border-radius: 8px; font-family: var(--mono); font-size: 13px; letter-spacing: 2px; cursor: pointer; font-weight: 700; }
+.fent { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 13px; margin-bottom: 7px; display: flex; align-items: center; gap: 10px; }
+.fmbdg { font-family: var(--mono); font-size: 9px; padding: 3px 6px; border-radius: 4px; background: var(--gold); color: #000; letter-spacing: 1px; flex-shrink: 0; }
+.fhd { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 11px 13px; margin-bottom: 7px; display: flex; align-items: center; gap: 12px; }
+.fhdb { flex: 1; background: var(--card2); border-radius: 4px; height: 8px; overflow: hidden; }
+.fhdf { height: 100%; border-radius: 4px; }
+
+/* INFO */
+.tlwrap { position: relative; padding-left: 24px; }
+.tlline { position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+.tli { position: relative; margin-bottom: 20px; }
+.tld { position: absolute; left: -21px; top: 5px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--bg); }
+.tldt { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; margin-bottom: 3px; text-transform: uppercase; }
+.tll { font-size: 17px; font-weight: 700; line-height: 1.3; }
+.hero { margin: 14px 0; padding: 22px 16px; border: 1px solid var(--accent); border-radius: 12px; text-align: center; background: linear-gradient(135deg,rgba(232,93,38,0.08),rgba(240,165,0,0.08)); }
+.hstats { display: flex; justify-content: center; gap: 24px; margin-top: 14px; }
+.hlbox { padding: 12px 14px; border-radius: 8px; border-left: 4px solid; margin-bottom: 10px; }
+.nlist { list-style: none; }
+.nlist li { font-size: 14px; padding: 4px 0 4px 12px; border-left: 2px solid var(--border); margin-bottom: 4px; line-height: 1.5; }
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+.empty { text-align: center; padding: 28px 16px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.ei2 { font-size: 30px; margin-bottom: 8px; }
+
+/* FORM containers */
+.form-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 15px; margin-bottom: 14px; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 85px; left: 50%; transform: translateX(-50%); background: var(--green); color: #000; padding: 10px 20px; border-radius: 20px; font-family: var(--mono); font-size: 13px; font-weight: 700; z-index: 999; opacity: 0; transition: opacity 0.3s; white-space: nowrap; pointer-events: none; }
+.toast.show { opacity: 1; }
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<div class="header">
-  <div class="header-eyebrow">Training Plan // June 2027</div>
-  <div class="header-title">Tour Transalp</div>
-  <div class="header-subtitle">216W → 320W &nbsp;·&nbsp; 87kg → 80kg</div>
-  <div class="stats-row">
-    <div class="stat-item">
-      <div class="stat-label">FTP Now</div>
-      <div class="stat-value">216W</div>
+<div class="hdr">
+  <div class="hdr-row">
+    <div>
+      <div class="hdr-title">Tour <span>Transalp</span> 2027</div>
+      <div class="hdr-sub">WITH KEVIN BOYD · AS A TEAM</div>
     </div>
-    <div class="stat-item">
-      <div class="stat-label">Target</div>
-      <div class="stat-value">320W</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-label">W/kg</div>
-      <div class="stat-value">4.0</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-label">Timeline</div>
-      <div class="stat-value">13 mo</div>
-    </div>
+    <div style="font-size:26px;">🏔️</div>
+  </div>
+  <div class="hdr-stats">
+    <div class="hs"><div class="hs-v" id="h-ftp">216W</div><div class="hs-l">FTP</div></div>
+    <div class="hs"><div class="hs-v" id="h-weight">87kg</div><div class="hs-l">Weight</div></div>
+    <div class="hs"><div class="hs-v" id="h-wkg">2.5</div><div class="hs-l">W/kg</div></div>
+    <div class="hs"><div class="hs-v" id="h-days">—</div><div class="hs-l">To Race</div></div>
   </div>
 </div>
 
-<!-- TABS -->
-<div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('week', this)">Weekly</button>
-  <button class="tab-btn" onclick="switchTab('phases', this)">Phases</button>
-  <button class="tab-btn" onclick="switchTab('nutrition', this)">Nutrition</button>
-  <button class="tab-btn" onclick="switchTab('dates', this)">Dates</button>
+<div class="scroll" id="scr">
+
+<!-- ===== PLAN ===== -->
+<div id="tab-plan" class="tc active">
+<div class="sl">Tap a day for full detail</div>
+
+<div class="card" style="border-left:4px solid #2a2d3a;" onclick="tog(this)">
+  <div class="ch"><div class="lbl" style="color:#6b7280;min-width:40px;">MON</div><div style="flex:1"><div class="ct">Active Recovery</div><div class="cm">No structured session</div></div><span class="bdg" style="background:#2a2d3a;color:#6b7280;">REST</span><span class="chv">▼</span></div>
+  <div class="cb"><ul class="dl"><li>10,000 steps — keep moving</li><li>Banstead Downs walk at the Marsden</li><li>Mobility optional</li><li>VO2 tomorrow needs genuinely fresh legs</li></ul><div class="kn" style="background:#1c1f2e;color:#6b7280;">"Genuine rest. No guilt. This is part of the plan."</div></div>
 </div>
 
-<!-- ===================== WEEKLY TAB ===================== -->
-<div id="tab-week" class="tab-content active">
-<div class="content">
-  <div class="section-label">Tap a day for full detail</div>
-
-  <!-- MONDAY -->
-  <div class="card" style="border-left: 4px solid #2a2d3a;" onclick="toggleCard(this)">
-    <div class="card-header">
-      <div class="day-label" style="color:#8a8f9e;">MON</div>
-      <div class="card-title-block">
-        <div class="card-title">Active Recovery</div>
-        <div class="card-meta">No structured session</div>
-      </div>
-      <span class="badge" style="background:#2a2d3a33;color:#8a8f9e;">REST</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <ul class="detail-list">
-        <li>10,000 steps target — keep moving</li>
-        <li>Banstead Downs walk if at the Marsden</li>
-        <li>Mobility and stretching optional</li>
-        <li>Let the weekend training settle</li>
-        <li>VO2 max tomorrow needs fresh legs — this is why Monday is rest</li>
-      </ul>
-      <div class="key-note" style="background:#2a2d3a55;color:#8a8f9e;">"Genuine rest. No guilt. This is part of the plan."</div>
-    </div>
+<div class="card" style="border-left:4px solid #e85d26;" onclick="tog(this)">
+  <div class="ch"><div class="lbl" style="color:#e85d26;min-width:40px;">TUE</div><div style="flex:1"><div class="ct">VO2 Max + Upper Body</div><div class="cm">Garage Trainer (lunch) · 45–60 min</div></div><span class="bdg" style="background:#e85d2622;color:#e85d26;">VO2</span><span class="chv">▼</span></div>
+  <div class="cb"><ul class="dl"><li>WFH day — zero travel friction</li><li>TrainerRoad AI session — do not skip or modify</li><li>Morning protected for deep work</li></ul>
+  <div class="sc" style="border-left:3px solid #27c97a;">
+    <div class="lbl" style="color:#27c97a;">Evening — Garage Upper Body with Son</div>
+    <div class="ei">Barbell overhead press — 3×8</div>
+    <div class="ei">Bent over barbell row — 3×10</div>
+    <div class="ei">Assisted dips — 3×max</div>
+    <div class="ei">Dumbbell curl superset tricep extension — 3×12</div>
+    <div class="ei">Heavy bag — 3×2 min rounds</div>
   </div>
+  <div class="kn" style="background:#e85d2612;color:#e85d26;">"Legs done at lunch. Upper body with your son in the evening."</div></div>
+</div>
 
-  <!-- TUESDAY -->
-  <div class="card" style="border-left: 4px solid #e85d26;" onclick="toggleCard(this)">
-    <div class="card-header">
-      <div class="day-label" style="color:#e85d26;">TUE</div>
-      <div class="card-title-block">
-        <div class="card-title">VO2 Max + Upper Body</div>
-        <div class="card-meta">Garage Trainer (lunch) · 45–60 min</div>
-      </div>
-      <span class="badge" style="background:#e85d2622;color:#e85d26;">VO2 MAX</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <ul class="detail-list">
-        <li>WFH day — bike is in the garage, zero travel friction</li>
-        <li>TrainerRoad AI session — do not skip or modify</li>
-        <li>Legs must be fresh — this is why Monday is complete rest</li>
-        <li>Morning protected for deep work</li>
-      </ul>
-      <div class="sub-card" style="border-left: 3px solid #2ecc71;">
-        <div class="subsection-label" style="color:#2ecc71;">Evening — Garage Upper Body with Son</div>
-        <div class="exercise-item">Barbell overhead press — 3×8</div>
-        <div class="exercise-item">Bent over barbell row — 3×10</div>
-        <div class="exercise-item">Assisted dips — 3×max</div>
-        <div class="exercise-item">Dumbbell curl superset tricep extension — 3×12</div>
-        <div class="exercise-item">Heavy bag — 3×2 min rounds (son's choice)</div>
-      </div>
-      <div class="key-note" style="background:#e85d2615;color:#e85d26;">"Legs done at lunch. Upper body in the evening. Train with your son."</div>
-    </div>
-  </div>
+<div class="card" style="border-left:4px solid #27c97a;" onclick="tog(this)">
+  <div class="ch"><div class="lbl" style="color:#27c97a;min-width:40px;">WED</div><div style="flex:1"><div class="ct">Upper Body + Core</div><div class="cm">Work Gym (lunch) · 45 min</div></div><span class="bdg" style="background:#27c97a22;color:#27c97a;">UPPER</span><span class="chv">▼</span></div>
+  <div class="cb"><ul class="dl"><li>5 min walk from office — no excuses</li><li>Evening: MTB with son if cycling club — bonus not mandatory</li></ul>
+  <div class="lbl" style="color:#27c97a;margin-top:12px;">Session</div>
+  <div class="ei">Cable lat pulldown — 3×12</div>
+  <div class="ei">Cable seated row — 3×12</div>
+  <div class="ei">Dumbbell shoulder press — 3×10</div>
+  <div class="ei">Cable chest fly — 3×12</div>
+  <div class="ei">Lateral raises — 3×15</div>
+  <div class="ei">Pallof press — 3×12 each side (anti-rotation core)</div>
+  <div class="ei">Dead bugs — 3×10 each side</div>
+  <div class="ei">Plank — 3×45 seconds</div>
+  <div class="kn" style="background:#27c97a12;color:#27c97a;">"Core work here directly reduces arm pump on long rides."</div></div>
+</div>
 
-  <!-- WEDNESDAY -->
-  <div class="card" style="border-left: 4px solid #2ecc71;" onclick="toggleCard(this)">
-    <div class="card-header">
-      <div class="day-label" style="color:#2ecc71;">WED</div>
-      <div class="card-title-block">
-        <div class="card-title">Upper Body + Functional</div>
-        <div class="card-meta">Work Gym (lunch) · 45 min</div>
-      </div>
-      <span class="badge" style="background:#2ecc7122;color:#2ecc71;">UPPER BODY</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <ul class="detail-list">
-        <li>5 minute walk from office — no excuses</li>
-        <li>Life Fitness cable machine — exceptional facility</li>
-        <li>Evening: MTB with son if cycling club happens — bonus, not mandatory</li>
-      </ul>
-      <div class="subsection-label" style="color:#2ecc71;">Session</div>
-      <div class="exercise-item">Cable lat pulldown — 3×12</div>
-      <div class="exercise-item">Cable seated row — 3×12</div>
-      <div class="exercise-item">Dumbbell shoulder press — 3×10</div>
-      <div class="exercise-item">Cable chest fly — 3×12</div>
-      <div class="exercise-item">Lateral raises — 3×15</div>
-      <div class="exercise-item">Pallof press — 3×12 each side</div>
-      <div class="exercise-item">Plank — 3×45 seconds</div>
-      <div class="key-note" style="background:#2ecc7115;color:#2ecc71;">"Lunchtime efficiency. 45 minutes in and out."</div>
-    </div>
-  </div>
+<div class="card" style="border-left:4px solid #f0a500;" onclick="tog(this)">
+  <div class="ch"><div class="lbl" style="color:#f0a500;min-width:40px;">THU</div><div style="flex:1"><div class="ct">Sweet Spot</div><div class="cm">Garage Trainer (evening) · 60 min</div></div><span class="bdg" style="background:#f0a50022;color:#f0a500;">SS</span><span class="chv">▼</span></div>
+  <div class="cb"><ul class="dl"><li>TrainerRoad AI session — protected, non-negotiable</li><li>Kids cooking club = clear window until 8.15pm</li><li>No gym same day — legs need to be ready</li><li>TR red light: sleep, legs, knee — 2 negatives = rest</li></ul>
+  <div class="kn" style="background:#f0a50012;color:#f0a500;">"This session is sacred. Everything else works around it."</div></div>
+</div>
 
-  <!-- THURSDAY -->
-  <div class="card" style="border-left: 4px solid #f5a623;" onclick="toggleCard(this)">
-    <div class="card-header">
-      <div class="day-label" style="color:#f5a623;">THU</div>
-      <div class="card-title-block">
-        <div class="card-title">Sweet Spot</div>
-        <div class="card-meta">Garage Trainer (evening) · 60 min</div>
-      </div>
-      <span class="badge" style="background:#f5a62322;color:#f5a623;">SWEET SPOT</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <ul class="detail-list">
-        <li>TrainerRoad AI session — protected, non-negotiable</li>
-        <li>Kids cooking club means clear window until 8.15pm</li>
-        <li>No gym on the same day — legs need to be ready</li>
-        <li>Consistent stimulus beats occasional heroics</li>
-      </ul>
-      <div class="key-note" style="background:#f5a62315;color:#f5a623;">"This session is sacred. Everything else works around it."</div>
-    </div>
-  </div>
+<div class="card" style="border-left:4px solid #f0f0f0;" onclick="tog(this)">
+  <div class="ch"><div class="lbl" style="color:#f0f0f0;min-width:40px;">FRI</div><div style="flex:1"><div class="ct">Family</div><div class="cm">Family meal and games night</div></div><span class="bdg" style="background:#f0f0f015;color:#f0f0f0;">FAMILY</span><span class="chv">▼</span></div>
+  <div class="cb"><ul class="dl"><li>Family meal and games night — fully protected</li><li>No training, no guilt, no exceptions</li></ul><div class="kn" style="background:#f0f0f010;color:#f0f0f0;">"Recovery is training. Family is the reason."</div></div>
+</div>
 
-  <!-- FRIDAY -->
-  <div class="card" style="border-left: 4px solid #eaeaea;" onclick="toggleCard(this)">
-    <div class="card-header">
-      <div class="day-label" style="color:#eaeaea;">FRI</div>
-      <div class="card-title-block">
-        <div class="card-title">Family</div>
-        <div class="card-meta">Family meal and games night</div>
-      </div>
-      <span class="badge" style="background:#eaeaea22;color:#eaeaea;">FAMILY</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <ul class="detail-list">
-        <li>Family meal and games night — fully protected</li>
-        <li>No training, no guilt, no exceptions</li>
-        <li>Tacos, fajitas, Harry Potter, whatever — enjoy it</li>
-        <li>This is part of the plan, not a gap in it</li>
-      </ul>
-      <div class="key-note" style="background:#eaeaea15;color:#eaeaea;">"Recovery is training. Family is the reason."</div>
-    </div>
-  </div>
+<div class="card" style="border-left:4px solid #4a9fd4;" onclick="tog(this)">
+  <div class="ch"><div class="lbl" style="color:#4a9fd4;min-width:40px;">SAT</div><div style="flex:1"><div class="ct">Outdoor Ride</div><div class="cm">North Downs · 2–4 hrs building</div></div><span class="bdg" style="background:#4a9fd422;color:#4a9fd4;">ENDURANCE</span><span class="chv">▼</span></div>
+  <div class="cb"><ul class="dl"><li>Start 8am — family life intact by mid-morning</li><li>Mostly Zone 2 — aerobic, conversational</li><li>Build: 2hr → 2.5hr → 3hr → 4hr over months</li><li>Descending practice EVERY ride — Box Hill, Leith Hill, Ranmore</li><li>Repeat descents deliberately — this is a skill</li><li>Kevin Boyd when logistics allow</li></ul>
+  <div class="kn" style="background:#4a9fd412;color:#4a9fd4;">"Descending is a skill. Every ride is a chance to practice it."</div></div>
+</div>
 
-  <!-- SATURDAY -->
-  <div class="card" style="border-left: 4px solid #4a9fd4;" onclick="toggleCard(this)">
-    <div class="card-header">
-      <div class="day-label" style="color:#4a9fd4;">SAT</div>
-      <div class="card-title-block">
-        <div class="card-title">Outdoor Ride</div>
-        <div class="card-meta">North Downs / Surrey · 2–4 hrs building</div>
-      </div>
-      <span class="badge" style="background:#4a9fd422;color:#4a9fd4;">ENDURANCE</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <ul class="detail-list">
-        <li>Start 8am — family life still intact by mid-morning</li>
-        <li>Mostly Zone 2 aerobic — conversational pace</li>
-        <li>Build deliberately: 2hr → 2.5hr → 3hr → 4hr over months</li>
-        <li>Descending practice built in every ride — Box Hill, Leith Hill, Ranmore</li>
-        <li>Repeat descents deliberately — this is a skill, not just fitness</li>
-        <li>Kevin Boyd when logistics allow — coordinate monthly</li>
-      </ul>
-      <div class="key-note" style="background:#4a9fd415;color:#4a9fd4;">"Descending is a skill. Every outdoor ride is a chance to practice it."</div>
-    </div>
-  </div>
+<div class="card" style="border-left:4px solid #8b5cf6;" onclick="tog(this)">
+  <div class="ch"><div class="lbl" style="color:#8b5cf6;min-width:40px;">SUN</div><div style="flex:1"><div class="ct">Lower Body Strength</div><div class="cm">Commercial Gym (morning) · 60 min</div></div><span class="bdg" style="background:#8b5cf622;color:#8b5cf6;">LOWER</span><span class="chv">▼</span></div>
+  <div class="cb"><ul class="dl"><li>Knee rehab progression — monitor 24–48hrs after</li><li>Afternoon: swimming, sauna, splash about with daughter</li></ul>
+  <div class="lbl" style="color:#8b5cf6;margin-top:12px;">Session</div>
+  <div class="ei">Single leg press — bad leg: 3×10 progressive (currently 91kg)</div>
+  <div class="ei">Double leg press — 3×12 moderate</div>
+  <div class="ei">Hack squat or belt squat — 3×10</div>
+  <div class="ei">Bulgarian split squat — 3×8 each leg</div>
+  <div class="ei">Sled push — 4×20m</div>
+  <div class="ei">Seated calf raise — 3×15</div>
+  <div class="ei">Terminal knee extension (band) — 3×15</div>
+  <div class="kn" style="background:#8b5cf612;color:#8b5cf6;">"£40/month well spent. Rehabilitation becoming performance."</div></div>
+</div>
 
-  <!-- SUNDAY -->
-  <div class="card" style="border-left: 4px solid #9b59b6;" onclick="toggleCard(this)">
-    <div class="card-header">
-      <div class="day-label" style="color:#9b59b6;">SUN</div>
-      <div class="card-title-block">
-        <div class="card-title">Lower Body Strength</div>
-        <div class="card-meta">Commercial Gym (morning) · 60 min</div>
-      </div>
-      <span class="badge" style="background:#9b59b622;color:#9b59b6;">LOWER BODY</span>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <ul class="detail-list">
-        <li>Knee rehab progression — this is the priority session</li>
-        <li>Afternoon: swimming, sauna, splash about with daughter</li>
-        <li>Sauna actively beneficial for knee circulation and recovery</li>
-      </ul>
-      <div class="subsection-label" style="color:#9b59b6;">Session</div>
-      <div class="exercise-item">Single leg press — bad leg: 3×10 progressive (currently 91kg)</div>
-      <div class="exercise-item">Double leg press — 3×12 moderate load</div>
-      <div class="exercise-item">Hack squat or belt squat — 3×10</div>
-      <div class="exercise-item">Bulgarian split squat — 3×8 each leg</div>
-      <div class="exercise-item">Sled push — 4×20m</div>
-      <div class="exercise-item">Seated calf raise — 3×15</div>
-      <div class="exercise-item">Terminal knee extension (band) — 3×15 knee health</div>
-      <div class="key-note" style="background:#9b59b615;color:#9b59b6;">"£40/month well spent. Rehabilitation becoming performance."</div>
-    </div>
-  </div>
-
-  <!-- TR NOTE -->
-  <div style="background:var(--card);border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:10px;padding:16px 18px;margin-top:8px;">
-    <div class="subsection-label" style="color:var(--gold);">TrainerRoad Red/Green Light</div>
-    <div style="font-size:15px;line-height:1.7;color:var(--text);">
-      TR red light = respect it for cycling. Ask three questions before deciding on gym: How did I sleep? How do my legs feel? Any knee inflammation? Two or more honest negative answers — rest everything. One or none — gym is still fine.
-    </div>
-  </div>
+<div style="background:var(--card);border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:10px;padding:14px 16px;margin-bottom:10px;">
+  <div class="lbl" style="color:var(--gold);">If Time Is Short — Priority Order</div>
+  <div style="font-size:15px;line-height:1.8;">1. Tuesday VO2 on trainer<br>2. Thursday Sweet Spot on trainer<br>3. One weekend outdoor ride<br><span style="color:var(--muted);font-size:13px;">Upper body: 20 min bodyweight at home beats nothing. Never skip knee work.</span></div>
 </div>
 </div>
 
-<!-- ===================== PHASES TAB ===================== -->
-<div id="tab-phases" class="tab-content">
-<div class="content">
-  <div class="section-label">13 months to Transalp — tap each phase</div>
+<!-- ===== TRACKER ===== -->
+<div id="tab-tracker" class="tc">
+<div class="stbox">
+  <div class="stitem"><div class="stv" id="st-streak">0</div><div class="stl">Week Streak</div></div>
+  <div class="stitem"><div class="stv" id="st-best">0</div><div class="stl">Best Streak</div></div>
+  <div class="stitem"><div class="stv" id="st-total">0</div><div class="stl">Total Sessions</div></div>
+</div>
+<div class="wknav">
+  <button class="wkbtn" onclick="chWk(-1)">◀</button>
+  <div style="text-align:center;"><div style="font-size:15px;font-weight:700;" id="wk-title">This Week</div><div style="font-family:var(--mono);font-size:10px;color:var(--muted);" id="wk-dates"></div></div>
+  <button class="wkbtn" onclick="chWk(1)">▶</button>
+</div>
+<div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
+<div style="font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:14px;"><span id="wk-done">0 done</span><span id="wk-pct">0%</span></div>
+<div id="session-rows"></div>
+<div class="divider"></div>
+<div class="sl" style="margin-top:4px;">Session History</div>
+<div id="wk-history"></div>
+</div>
 
-  <div class="timeline-bar">
-    <div class="timeline-bar-segment" style="background:#4a9fd4;opacity:0.9;"></div>
-    <div class="timeline-bar-segment" style="background:#f5a623;opacity:0.9;"></div>
-    <div class="timeline-bar-segment" style="background:#9b59b6;opacity:0.9;"></div>
-    <div class="timeline-bar-segment" style="background:#ff7a45;opacity:0.9;"></div>
-    <div class="timeline-bar-segment" style="background:#e85d26;opacity:0.9;flex:0.4;"></div>
+<!-- ===== EXERCISES ===== -->
+<div id="tab-exercises" class="tc">
+<div class="sl">Tap to log · Tracks personal bests</div>
+<div id="ex-list"></div>
+</div>
+
+<!-- ===== ACTIVITY ===== -->
+<div id="tab-activity" class="tc">
+<div class="form-card">
+  <div class="lbl" style="color:var(--accent);">Log Activity</div>
+  <div class="atypes" id="atypes">
+    <button class="abtn sel" data-t="🚴 Outdoor Ride" onclick="selAct(this)">🚴 Ride</button>
+    <button class="abtn" data-t="🚵 MTB" onclick="selAct(this)">🚵 MTB</button>
+    <button class="abtn" data-t="🚶 Walk" onclick="selAct(this)">🚶 Walk</button>
+    <button class="abtn" data-t="👨‍👧 Family Walk" onclick="selAct(this)">👨‍👧 Family</button>
+    <button class="abtn" data-t="🏊 Swimming" onclick="selAct(this)">🏊 Swim</button>
+    <button class="abtn" data-t="🥊 Heavy Bag" onclick="selAct(this)">🥊 Bag</button>
+    <button class="abtn" data-t="🧘 Mobility" onclick="selAct(this)">🧘 Mobility</button>
+    <button class="abtn" data-t="⚽ Other" onclick="selAct(this)">⚽ Other</button>
   </div>
-
-  <!-- Phase 1 -->
-  <div class="card" style="border-left:4px solid #4a9fd4;" onclick="toggleCard(this)">
-    <div class="phase-header">
-      <div class="phase-title-block">
-        <div class="phase-eyebrow" style="color:#4a9fd4;">Phase 1 · May – July 2026</div>
-        <div class="phase-title">Foundation</div>
-      </div>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="phase-goal">Establish consistency. Build the habit architecture. Let the knee load progressively without chasing numbers.</div>
-      <div class="phase-section">
-        <div class="phase-section-label" style="color:#4a9fd4;">Cycling</div>
-        <div class="phase-section-text">TR Base plan. All 3 sessions weekly. Saturday outdoor rides building from 2 to 2.5 hours. Descending practice starts immediately — Box Hill repeats every outdoor ride.</div>
-      </div>
-      <div class="phase-section">
-        <div class="phase-section-label" style="color:#4a9fd4;">Strength</div>
-        <div class="phase-section-text">Leg press building weekly from current 91kg single leg. Upper body establishing baseline loads. Garage barbell work beginning with son.</div>
-      </div>
-      <div class="highlight-box" style="background:#4a9fd415;border-color:#4a9fd4;">
-        <div class="highlight-label" style="color:#4a9fd4;">⭐ Son joins commercial gym — August 2026</div>
-        <div class="highlight-text">Plan for this transition. New dynamic — father and son training together properly.</div>
-      </div>
-      <div class="phase-section-label" style="color:var(--muted);">Key Notes</div>
-      <ul class="notes-list">
-        <li>Don't chase FTP — chase consistency</li>
-        <li>Monitor knee 24–48hrs after heavy leg sessions</li>
-        <li>Overnight oats and lunch prep habits establish here</li>
-        <li>Notebook daily tracking from week one</li>
-      </ul>
-    </div>
+  <div style="display:flex;gap:8px;margin-top:10px;">
+    <input class="ainp" type="number" id="a-dur" placeholder="Mins" min="1">
+    <input class="ainp" type="number" id="a-dist" placeholder="km" step="0.1">
+    <input class="ainp" type="text" id="a-note" placeholder="Note" style="flex:2;">
   </div>
+  <button class="asub" onclick="logAct()">LOG ACTIVITY</button>
+</div>
+<div class="sl">Recent Activity</div>
+<div id="act-log"></div>
+</div>
 
-  <!-- Phase 2 -->
-  <div class="card" style="border-left:4px solid #f5a623;" onclick="toggleCard(this)">
-    <div class="phase-header">
-      <div class="phase-title-block">
-        <div class="phase-eyebrow" style="color:#f5a623;">Phase 2 · Aug – Oct 2026</div>
-        <div class="phase-title">Build</div>
-      </div>
-      <div class="phase-badges">
-        <span class="badge" style="background:#f5a62322;color:#f5a623;">EVENT</span>
-      </div>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="phase-goal">Increase training load meaningfully. FTP rising. Outdoor ride duration building. Son now at the gym — new training dynamic.</div>
-      <div class="phase-section">
-        <div class="phase-section-label" style="color:#f5a623;">Cycling</div>
-        <div class="phase-section-text">TR Build plan. Saturday rides extending to 3 hours. First proper joint long day with Kevin — plan a 4hr Surrey route together.</div>
-      </div>
-      <div class="phase-section">
-        <div class="phase-section-label" style="color:#f5a623;">Strength</div>
-        <div class="phase-section-text">Son joins commercial gym in August. Barbell work in garage progressing to heavier loads. Leg press numbers should be climbing significantly.</div>
-      </div>
-      <div class="highlight-box" style="background:#f5a62315;border-color:#f5a623;">
-        <div class="highlight-label" style="color:#f5a623;">🎯 Target Sportive — September or October 2026</div>
-        <div class="highlight-text">Surrey Hills or similar. First race number since the surgery. Get back on the start line. Don't race it — use it as a long training day with motivation.</div>
-      </div>
-      <div class="phase-section-label" style="color:var(--muted);">Key Notes</div>
-      <ul class="notes-list">
-        <li>FTP target: 250–260W by end of October</li>
-        <li>Weight trending toward 85kg by end of phase</li>
-        <li>Descending confidence should be visibly improving</li>
-        <li>Coordinate with Kevin — monthly long rides from here</li>
-      </ul>
-    </div>
+<!-- ===== FOOD ===== -->
+<div id="tab-food" class="tc">
+<div class="fdnav">
+  <button class="fdnavbtn" onclick="chFd(-1)">◀</button>
+  <div style="text-align:center;"><div style="font-size:15px;font-weight:700;" id="fd-title">Today</div><div style="font-family:var(--mono);font-size:10px;color:var(--muted);" id="fd-date"></div></div>
+  <button class="fdnavbtn" onclick="chFd(1)">▶</button>
+</div>
+<div class="ring-wrap">
+  <div class="ring">
+    <svg class="ring-svg" width="130" height="130" viewBox="0 0 130 130">
+      <circle class="rbg" cx="65" cy="65" r="54"/>
+      <circle class="rfill" id="ring-f" cx="65" cy="65" r="54" stroke-dasharray="339.3" stroke-dashoffset="339.3"/>
+    </svg>
+    <div class="rtxt"><div class="rv" id="ring-v">0g</div><div class="ru">protein</div></div>
   </div>
-
-  <!-- Phase 3 -->
-  <div class="card" style="border-left:4px solid #9b59b6;" onclick="toggleCard(this)">
-    <div class="phase-header">
-      <div class="phase-title-block">
-        <div class="phase-eyebrow" style="color:#9b59b6;">Phase 3 · Nov – Jan 2027</div>
-        <div class="phase-title">Endurance Block</div>
-      </div>
-      <div class="phase-badges">
-        <span class="badge" style="background:#e85d2622;color:#e85d26;">CAMP</span>
-      </div>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="phase-goal">Build deep aerobic base through winter. This is where Transalp is actually won or lost. Embrace the dark months.</div>
-      <div class="phase-section">
-        <div class="phase-section-label" style="color:#9b59b6;">Cycling</div>
-        <div class="phase-section-text">TR Base/Build hybrid. More indoor sessions as daylight drops but outdoor rides protected for weekends. Volume is the priority — not intensity.</div>
-      </div>
-      <div class="phase-section">
-        <div class="phase-section-label" style="color:#9b59b6;">Strength</div>
-        <div class="phase-section-text">Maintain all strength gains. Do not let gym drop below 2 sessions per week through winter. This is where muscle is preserved heading into race prep.</div>
-      </div>
-      <div class="highlight-box" style="background:#e85d2615;border-color:#e85d26;">
-        <div class="highlight-label" style="color:#e85d26;">🏕️ Home Camp — December or January</div>
-        <div class="highlight-text">3-day back-to-back block. Day 1: 4hr ride. Day 2: 4hr ride. Day 3: 2.5hr recovery ride. Take half days off work. This replicates multi-day Alpine fatigue better than anything else. The body learns to keep going on tired legs — you cannot simulate this any other way.</div>
-      </div>
-      <div class="phase-section-label" style="color:var(--muted);">Key Notes</div>
-      <ul class="notes-list">
-        <li>FTP target: 270–280W by January</li>
-        <li>Christmas — maintain movement, don't panic about missed sessions</li>
-        <li>Alcohol awareness — you know the multi-day training effect</li>
-        <li>Weight target: 83–84kg by January</li>
-      </ul>
-    </div>
+  <div style="font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:8px;">Target: <strong style="color:var(--text);">150g</strong></div>
+</div>
+<div class="pbk">
+  <div class="pbs"><div class="pbsv" id="pb-b">0g</div><div class="pbsl">Breakfast</div></div>
+  <div class="pbs"><div class="pbsv" id="pb-l">0g</div><div class="pbsl">Lunch</div></div>
+  <div class="pbs"><div class="pbsv" id="pb-s">0g</div><div class="pbsl">Snack</div></div>
+  <div class="pbs"><div class="pbsv" id="pb-d">0g</div><div class="pbsl">Dinner</div></div>
+</div>
+<div class="form-card">
+  <div class="lbl" style="color:var(--gold);">Log Food</div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;">
+    <button class="mbtn sel" data-m="Breakfast" onclick="selMeal(this)">Breakfast</button>
+    <button class="mbtn" data-m="Lunch" onclick="selMeal(this)">Lunch</button>
+    <button class="mbtn" data-m="Snack" onclick="selMeal(this)">Snack</button>
+    <button class="mbtn" data-m="Dinner" onclick="selMeal(this)">Dinner</button>
   </div>
-
-  <!-- Phase 4 -->
-  <div class="card" style="border-left:4px solid #ff7a45;" onclick="toggleCard(this)">
-    <div class="phase-header">
-      <div class="phase-title-block">
-        <div class="phase-eyebrow" style="color:#ff7a45;">Phase 4 · Feb – May 2027</div>
-        <div class="phase-title">Race Specific</div>
-      </div>
-      <div class="phase-badges">
-        <span class="badge" style="background:#e85d2622;color:#e85d26;">CAMP</span>
-        <span class="badge" style="background:#f5a62322;color:#f5a623;">EVENT</span>
-      </div>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="phase-goal">Sharpen. Simulate Alpine demands. Nail descending. Arrive at the start line confident and race-ready.</div>
-      <div class="phase-section">
-        <div class="phase-section-label" style="color:#ff7a45;">Cycling</div>
-        <div class="phase-section-text">TR Specialty — climbing focus. Rides getting longer and more Alpine in character. Descending must be race-ready by March.</div>
-      </div>
-      <div class="phase-section">
-        <div class="phase-section-label" style="color:#ff7a45;">Strength</div>
-        <div class="phase-section-text">Maintain, don't build. Protect legs for increasing cycling volume. Gym drops to 1-2 sessions per week by May.</div>
-      </div>
-      <div class="highlight-box" style="background:#e85d2615;border-color:#e85d26;">
-        <div class="highlight-label" style="color:#e85d26;">🏔️ Training Camp — April or May 2027</div>
-        <div class="highlight-text">3–5 days away with Kevin. Ideally Alps or Pyrenees — real climbs, real descents. Take a week off work. This is the final stress test before Transalp. You will know exactly where you stand after this.</div>
-      </div>
-      <div class="highlight-box" style="background:#f5a62315;border-color:#f5a623;">
-        <div class="highlight-label" style="color:#f5a623;">🎯 Spring Sportive — April or May 2027</div>
-        <div class="highlight-text">Full race simulation. Treat as a Transalp dress rehearsal. Race pace, race nutrition, race kit. Learn what works before it matters.</div>
-      </div>
-      <div class="phase-section-label" style="color:var(--muted);">Key Notes</div>
-      <ul class="notes-list">
-        <li>W/kg target: 3.8+ by April</li>
-        <li>Weight target: 80–82kg</li>
-        <li>Align training peaks with Kevin — you arrive together</li>
-        <li>Descending race-ready by March — no exceptions</li>
-      </ul>
-    </div>
+  <div class="lbl" style="color:var(--muted);margin-top:8px;">Quick Add — tap to fill</div>
+  <div class="qfs">
+    <button class="qfb" onclick="qf('Overnight oats + Greek yoghurt',30)"><div class="qfn">Overnight oats</div><div class="qfp">~30g</div></button>
+    <button class="qfb" onclick="qf('Tinned mackerel',25)"><div class="qfn">Tin mackerel</div><div class="qfp">~25g</div></button>
+    <button class="qfb" onclick="qf('Boiled egg',6)"><div class="qfn">Boiled egg</div><div class="qfp">~6g</div></button>
+    <button class="qfb" onclick="qf('Greek yoghurt (Fage)',17)"><div class="qfn">Greek yoghurt</div><div class="qfp">~17g</div></button>
+    <button class="qfb" onclick="qf('Chicken breast',35)"><div class="qfn">Chicken breast</div><div class="qfp">~35g</div></button>
+    <button class="qfb" onclick="qf('Salmon fillet',30)"><div class="qfn">Salmon fillet</div><div class="qfp">~30g</div></button>
+    <button class="qfb" onclick="qf('Skyr pot',15)"><div class="qfn">Skyr pot</div><div class="qfp">~15g</div></button>
+    <button class="qfb" onclick="qf('Tin tuna',25)"><div class="qfn">Tin tuna</div><div class="qfp">~25g</div></button>
+    <button class="qfb" onclick="qf('Heck chicken burger',16)"><div class="qfn">Heck burger</div><div class="qfp">~16g</div></button>
+    <button class="qfb" onclick="qf('Turkey mince (100g)',22)"><div class="qfn">Turkey mince</div><div class="qfp">~22g</div></button>
+    <button class="qfb" onclick="qf('Protein bar',20)"><div class="qfn">Protein bar</div><div class="qfp">~20g</div></button>
+    <button class="qfb" onclick="qf('Cottage cheese (150g)',12)"><div class="qfn">Cottage cheese</div><div class="qfp">~12g</div></button>
+    <button class="qfb" onclick="qf('Prawns (100g)',20)"><div class="qfn">Prawns</div><div class="qfp">~20g</div></button>
+    <button class="qfb" onclick="qf('Ella oat bar',5)"><div class="qfn">Ella oat bar</div><div class="qfp">~5g</div></button>
+    <button class="qfb" onclick="qf('Eggs omelette (3 egg)',19)"><div class="qfn">3 egg omelette</div><div class="qfp">~19g</div></button>
+    <button class="qfb" onclick="qf('Sardines tin',22)"><div class="qfn">Tin sardines</div><div class="qfp">~22g</div></button>
   </div>
-
-  <!-- Phase 5 -->
-  <div class="card" style="border-left:4px solid #e85d26;" onclick="toggleCard(this)">
-    <div class="phase-header">
-      <div class="phase-title-block">
-        <div class="phase-eyebrow" style="color:#e85d26;">Phase 5 · June 2027</div>
-        <div class="phase-title">Taper & Race</div>
-      </div>
-      <div class="phase-badges">
-        <span class="badge" style="background:#e85d2622;color:#e85d26;">RACE</span>
-      </div>
-      <span class="chevron">▼</span>
-    </div>
-    <div class="card-body">
-      <div class="phase-goal">Arrive fresh, confident, and ready. Trust the work. Enjoy every climb.</div>
-      <div class="phase-section">
-        <div class="phase-section-label" style="color:#e85d26;">Taper</div>
-        <div class="phase-section-text">2 week taper — volume drops 40%, intensity maintained. Short sharp sessions only. Sleep, nutrition, and logistics become the priority.</div>
-      </div>
-      <div class="highlight-box" style="background:#e85d2615;border-color:#e85d26;">
-        <div class="highlight-label" style="color:#e85d26;">🏔️ Tour Transalp — June 2027</div>
-        <div class="highlight-text">With Kevin Boyd. As a team. You rode Chase the Sun together in the dark. You know what you're capable of. Trust the 13 months of work.</div>
-      </div>
-      <div class="phase-section-label" style="color:var(--muted);">Final Checks</div>
-      <ul class="notes-list">
-        <li>Bike service 2 weeks before start</li>
-        <li>Kit check — nothing new on race day</li>
-        <li>Route familiarity — study each stage descent</li>
-        <li>One final descending confidence session in the taper</li>
-      </ul>
-    </div>
+  <div style="display:flex;gap:8px;margin-top:8px;">
+    <input class="finp" type="text" id="f-name" placeholder="Or type food name...">
+    <input class="pinp" type="number" id="f-prot" placeholder="g" min="0">
   </div>
+  <button class="fsub" onclick="logFood()">LOG PROTEIN</button>
+</div>
+<div class="sl">Today's Log</div>
+<div id="food-log"></div>
+<div class="divider"></div>
+<div class="sl">7-Day History</div>
+<div id="food-hist"></div>
+</div>
 
+<!-- ===== INFO ===== -->
+<div id="tab-info" class="tc">
+<div class="sl">Training Phases</div>
+
+<div class="card" style="border-left:4px solid #4a9fd4;" onclick="tog(this)">
+  <div class="ch"><div style="flex:1"><div style="font-family:var(--mono);font-size:10px;color:#4a9fd4;letter-spacing:2px;">PHASE 1 · MAY – JUL 2026</div><div class="ct">Foundation</div></div><span class="chv">▼</span></div>
+  <div class="cb" style="padding-top:12px;">
+    <div style="font-style:italic;font-size:15px;line-height:1.6;margin-bottom:12px;">Establish consistency. Build the habit architecture. Let the knee load progressively.</div>
+    <div class="lbl" style="color:#4a9fd4;">Cycling</div><div style="font-size:15px;margin-bottom:10px;line-height:1.5;">TR Base plan. All 3 sessions weekly. Saturday rides 2–2.5 hrs. Descending practice starts now.</div>
+    <ul class="nlist"><li>Don't chase FTP — chase consistency</li><li>Monitor knee 24–48hrs after heavy sessions</li><li>Son joins commercial gym August</li></ul>
+  </div>
+</div>
+
+<div class="card" style="border-left:4px solid #f0a500;" onclick="tog(this)">
+  <div class="ch"><div style="flex:1"><div style="font-family:var(--mono);font-size:10px;color:#f0a500;letter-spacing:2px;">PHASE 2 · AUG – OCT 2026</div><div class="ct">Build</div></div><span class="bdg" style="background:#f0a50022;color:#f0a500;">EVENT</span><span class="chv">▼</span></div>
+  <div class="cb" style="padding-top:12px;">
+    <div style="font-style:italic;font-size:15px;line-height:1.6;margin-bottom:12px;">Increase load. FTP rising. First race number back on the frame.</div>
+    <div class="hlbox" style="background:#f0a50015;border-color:#f0a500;"><div class="lbl" style="color:#f0a500;">🎯 Target Sportive — Sep/Oct 2026</div><div style="font-size:14px;line-height:1.6;">Surrey Hills or similar. Don't race it — use it as a motivated long training day.</div></div>
+    <ul class="nlist"><li>FTP target: 250–260W by October</li><li>Weight target: 85kg by end of phase</li><li>First long day with Kevin</li></ul>
+  </div>
+</div>
+
+<div class="card" style="border-left:4px solid #8b5cf6;" onclick="tog(this)">
+  <div class="ch"><div style="flex:1"><div style="font-family:var(--mono);font-size:10px;color:#8b5cf6;letter-spacing:2px;">PHASE 3 · NOV – JAN 2027</div><div class="ct">Endurance Block</div></div><span class="bdg" style="background:#e85d2622;color:#e85d26;">CAMP</span><span class="chv">▼</span></div>
+  <div class="cb" style="padding-top:12px;">
+    <div style="font-style:italic;font-size:15px;line-height:1.6;margin-bottom:12px;">Deep aerobic base through winter. This is where Transalp is won or lost.</div>
+    <div class="hlbox" style="background:#e85d2615;border-color:#e85d26;"><div class="lbl" style="color:#e85d26;">🏕️ Home Camp — Dec/Jan</div><div style="font-size:14px;line-height:1.6;">3-day block: 4hr ride, 4hr ride, 2.5hr recovery. Take half days off work. Replicates multi-day Alpine fatigue.</div></div>
+    <ul class="nlist"><li>FTP target: 270–280W by January</li><li>Weight: 83–84kg</li><li>Alcohol — you know the multi-day effect</li></ul>
+  </div>
+</div>
+
+<div class="card" style="border-left:4px solid #ff7a45;" onclick="tog(this)">
+  <div class="ch"><div style="flex:1"><div style="font-family:var(--mono);font-size:10px;color:#ff7a45;letter-spacing:2px;">PHASE 4 · FEB – MAY 2027</div><div class="ct">Race Specific</div></div><div style="display:flex;gap:5px;"><span class="bdg" style="background:#e85d2622;color:#e85d26;">CAMP</span><span class="bdg" style="background:#f0a50022;color:#f0a500;">EVENT</span></div><span class="chv">▼</span></div>
+  <div class="cb" style="padding-top:12px;">
+    <div class="hlbox" style="background:#e85d2615;border-color:#e85d26;"><div class="lbl" style="color:#e85d26;">🏔️ Training Camp — Apr/May 2027</div><div style="font-size:14px;line-height:1.6;">3–5 days with Kevin. Alps or Pyrenees. Real climbs, real descents. Take a week off. Final stress test before race.</div></div>
+    <ul class="nlist"><li>W/kg target: 3.8+ by April</li><li>Weight: 80–82kg</li><li>Descending race-ready by March</li></ul>
+  </div>
+</div>
+
+<div class="card" style="border-left:4px solid #e85d26;" onclick="tog(this)">
+  <div class="ch"><div style="flex:1"><div style="font-family:var(--mono);font-size:10px;color:#e85d26;letter-spacing:2px;">PHASE 5 · JUNE 2027</div><div class="ct">Taper & Race</div></div><span class="bdg" style="background:#e85d2622;color:#e85d26;">🏆 RACE</span><span class="chv">▼</span></div>
+  <div class="cb" style="padding-top:12px;">
+    <div style="font-style:italic;font-size:15px;line-height:1.6;margin-bottom:12px;">Arrive fresh, confident, ready. Trust the work.</div>
+    <ul class="nlist"><li>2 week taper — volume -40%, intensity maintained</li><li>Bike service 2 weeks before start</li><li>Nothing new on race day</li></ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+<div class="sl">Key Dates</div>
+<div class="tlwrap">
+  <div class="tlline"></div>
+  <div class="tli"><div class="tld" style="background:#4a9fd4;"></div><div class="tldt" style="color:#4a9fd4;">May 2026</div><div class="tll">Plan starts</div></div>
+  <div class="tli"><div class="tld" style="background:#27c97a;"></div><div class="tldt" style="color:#27c97a;">August 2026</div><div class="tll">Son joins commercial gym</div></div>
+  <div class="tli"><div class="tld" style="background:#f0a500;"></div><div class="tldt" style="color:#f0a500;">Sep / Oct 2026</div><div class="tll">Target sportive — first race number back</div></div>
+  <div class="tli"><div class="tld" style="background:#8b5cf6;"></div><div class="tldt" style="color:#8b5cf6;">Dec / Jan 2026–27</div><div class="tll">Home camp — 3 day back-to-back</div></div>
+  <div class="tli"><div class="tld" style="background:#ff7a45;"></div><div class="tldt" style="color:#ff7a45;">Apr / May 2027</div><div class="tll">Training camp — Alps or Pyrenees with Kevin</div></div>
+  <div class="tli"><div class="tld" style="background:#f0a500;"></div><div class="tldt" style="color:#f0a500;">Apr / May 2027</div><div class="tll">Spring sportive — dress rehearsal</div></div>
+</div>
+<div class="hero">
+  <div style="font-size:34px;margin-bottom:8px;">🏔️</div>
+  <div style="font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:4px;margin-bottom:8px;">THE GOAL</div>
+  <div style="font-size:22px;font-weight:700;">Tour Transalp 2027</div>
+  <div style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:6px;">With Kevin Boyd · As a team</div>
+  <div class="hstats"><div><div style="font-size:20px;font-weight:700;color:var(--accent);">320W</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;">FTP</div></div><div><div style="font-size:20px;font-weight:700;color:var(--accent);">80kg</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;">WEIGHT</div></div><div><div style="font-size:20px;font-weight:700;color:var(--accent);">4.0</div><div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;">W/KG</div></div></div>
+</div>
+<div class="divider"></div>
+<div class="sl">Weekly Check-in Template</div>
+<div class="form-card" style="border-left:4px solid var(--accent);">
+  <div style="font-size:13px;color:var(--text);line-height:2;font-family:var(--mono);">
+    📋 WEEKLY CHECK-IN<br><br>
+    Date: ___________&nbsp;&nbsp;Weight: _____<br><br>
+    SESSIONS<br>
+    Planned vs done: ___________<br>
+    Missed + why: ___________<br><br>
+    KNEE<br>
+    How it felt: ___________<br>
+    24–48hr reactions: ___________<br><br>
+    NUTRITION<br>
+    Avg daily protein: ___________<br>
+    Notable: ___________<br><br>
+    WELLBEING<br>
+    Sleep + energy (1–5): ___<br>
+    Stress load: ___________<br><br>
+    NEXT WEEK<br>
+    Disruptions: ___________<br><br>
+    REFLECTION<br>
+    One thing well: ___________<br>
+    One to improve: ___________
+  </div>
 </div>
 </div>
 
-<!-- ===================== NUTRITION TAB ===================== -->
-<div id="tab-nutrition" class="tab-content">
-<div class="content">
-  <div class="section-label">Protein is the primary lever</div>
+</div><!-- end scroll -->
 
-  <!-- Daily Target -->
-  <div class="nutrition-block">
-    <div class="nutrition-title">Daily Protein Target</div>
-    <div class="nutrition-target">120–150g per day // Building toward 150g</div>
-
-    <div class="meal-row">
-      <div class="meal-time">Breakfast</div>
-      <div class="meal-detail">
-        <div class="meal-name">Overnight Oats</div>
-        <div class="meal-desc">Oats, Greek yoghurt (Fage), milk, blueberries. Make the night before alongside your son's portion.</div>
-      </div>
-      <div class="meal-protein">~30g</div>
-    </div>
-
-    <div class="meal-row">
-      <div class="meal-time">Lunch</div>
-      <div class="meal-detail">
-        <div class="meal-name">Prepped Protein Lunch</div>
-        <div class="meal-desc">Tinned mackerel or sardines, pre-washed salad, boiled egg (batch Sunday), half avocado. Prep the night before — 4 minutes.</div>
-      </div>
-      <div class="meal-protein">~38g</div>
-    </div>
-
-    <div class="meal-row">
-      <div class="meal-time">Snack</div>
-      <div class="meal-detail">
-        <div class="meal-name">Protein bar or skyr</div>
-        <div class="meal-desc">Work protein bar or a pot of skyr with fruit. Apple, satsuma fine alongside — keep the fruit.</div>
-      </div>
-      <div class="meal-protein">~20g</div>
-    </div>
-
-    <div class="meal-row">
-      <div class="meal-time">Dinner</div>
-      <div class="meal-detail">
-        <div class="meal-name">Your existing rotation</div>
-        <div class="meal-desc">Stir fry, omelette, chicken, salmon, turkey tacos — all good. Slightly larger protein portions where possible.</div>
-      </div>
-      <div class="meal-protein">~40g</div>
-    </div>
-
-    <div class="protein-total">
-      <div class="protein-total-label">Daily Total</div>
-      <div class="protein-total-value">~128g</div>
-    </div>
-  </div>
-
-  <!-- Key Principles -->
-  <div class="nutrition-block">
-    <div class="nutrition-title">Key Principles</div>
-    <ul class="notes-list" style="margin-top:8px;">
-      <li>Protein first at every meal — not an afterthought</li>
-      <li>Batch boil 4–6 eggs on Sunday — removes friction all week</li>
-      <li>Fruit is good but doesn't move the protein needle</li>
-      <li>Honey is just sugar with a health halo — not needed</li>
-      <li>Alcohol — you already know the multi-day training effect</li>
-      <li>Gradual weight loss: 87kg → 80kg over 13 months — no crash dieting</li>
-      <li>Fuel properly on training days — don't restrict calories before hard sessions</li>
-    </ul>
-  </div>
-
-  <!-- MFP Note -->
-  <div class="nutrition-block" style="border-left:4px solid var(--gold);">
-    <div class="nutrition-title">MyFitnessPal Strategy</div>
-    <div style="font-size:15px;line-height:1.7;color:var(--text);margin-top:8px;">
-      Don't log obsessively forever. Log consistently for 2–3 weeks to build awareness of where the gaps actually are. Then operate intuitively and dip back in for a reality check week monthly. Don't log exercise calories in MFP — TrainerRoad handles that and MFP overestimates cycling burn significantly.
-    </div>
-  </div>
-
-  <!-- Notebook -->
-  <div class="section-label" style="margin-top:24px;">The Purple Notebook — Daily Page</div>
-
-  <div class="notebook-page">
-    <div class="notebook-title">Daily Training Log</div>
-
-    <div class="notebook-field">
-      <div class="notebook-field-label">Date</div>
-      <div class="notebook-field-dots"></div>
-      <div class="notebook-field-label" style="min-width:50px;">Weight</div>
-      <div class="notebook-field-dots" style="max-width:60px;"></div>
-    </div>
-
-    <div class="notebook-field">
-      <div class="notebook-field-label">Planned</div>
-      <div class="notebook-field-dots"></div>
-    </div>
-
-    <div class="notebook-field">
-      <div class="notebook-field-label">Done</div>
-      <div class="notebook-field-dots"></div>
-    </div>
-
-    <div class="notebook-field">
-      <div class="notebook-field-label">Knee</div>
-      <div class="notebook-field-dots"></div>
-      <div class="notebook-field-label" style="min-width:60px;">Energy 1–5</div>
-      <div class="notebook-field-dots" style="max-width:40px;"></div>
-    </div>
-
-    <div style="margin:14px 0 6px;font-family:var(--font-mono);font-size:11px;color:#8a7a6a;letter-spacing:2px;">PROTEIN TALLY</div>
-    <div class="notebook-field">
-      <div class="notebook-field-label">B:</div>
-      <div class="notebook-field-dots" style="max-width:50px;"></div>
-      <div class="notebook-field-label" style="min-width:30px;">L:</div>
-      <div class="notebook-field-dots" style="max-width:50px;"></div>
-      <div class="notebook-field-label" style="min-width:30px;">S:</div>
-      <div class="notebook-field-dots" style="max-width:50px;"></div>
-      <div class="notebook-field-label" style="min-width:30px;">D:</div>
-      <div class="notebook-field-dots" style="max-width:50px;"></div>
-      <div class="notebook-field-label" style="min-width:50px;">Total:</div>
-      <div class="notebook-field-dots" style="max-width:50px;"></div>
-    </div>
-
-    <div style="margin:14px 0 6px;font-family:var(--font-mono);font-size:11px;color:#8a7a6a;letter-spacing:2px;">ONE LINE REFLECTION</div>
-    <div class="notebook-field">
-      <div class="notebook-field-dots"></div>
-    </div>
-    <div class="notebook-field">
-      <div class="notebook-field-dots"></div>
-    </div>
-  </div>
-
-</div>
+<!-- BOTTOM NAV -->
+<div class="bnav">
+  <button class="nb active" onclick="sw('plan',this)"><span class="ni">📅</span>PLAN</button>
+  <button class="nb" onclick="sw('tracker',this)"><span class="ni">✅</span>TRACK</button>
+  <button class="nb" onclick="sw('exercises',this)"><span class="ni">💪</span>LIFT</button>
+  <button class="nb" onclick="sw('activity',this)"><span class="ni">🚴</span>ACTIVITY</button>
+  <button class="nb" onclick="sw('food',this)"><span class="ni">🥗</span>FOOD</button>
+  <button class="nb" onclick="sw('info',this)"><span class="ni">🏔️</span>INFO</button>
 </div>
 
-<!-- ===================== DATES TAB ===================== -->
-<div id="tab-dates" class="tab-content">
-<div class="content">
-  <div class="section-label">May 2026 → June 2027</div>
-
-  <div class="timeline">
-    <div class="timeline-line"></div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot" style="background:#4a9fd4;"></div>
-      <div class="timeline-date" style="color:#4a9fd4;">May 2026</div>
-      <div class="timeline-label">Plan starts — consistency is the goal</div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot" style="background:#2ecc71;"></div>
-      <div class="timeline-date" style="color:#2ecc71;">August 2026</div>
-      <div class="timeline-label">Son joins the commercial gym</div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot" style="background:#f5a623;"></div>
-      <div class="timeline-date" style="color:#f5a623;">Sep / Oct 2026</div>
-      <div class="timeline-label">Target sportive — first race number back</div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot" style="background:#9b59b6;"></div>
-      <div class="timeline-date" style="color:#9b59b6;">Dec / Jan 2026–27</div>
-      <div class="timeline-label">Home camp — 3 day back-to-back block</div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot" style="background:#ff7a45;"></div>
-      <div class="timeline-date" style="color:#ff7a45;">April / May 2027</div>
-      <div class="timeline-label">Training camp — Alps or Pyrenees with Kevin</div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-dot" style="background:#f5a623;"></div>
-      <div class="timeline-date" style="color:#f5a623;">April / May 2027</div>
-      <div class="timeline-label">Spring sportive — Transalp dress rehearsal</div>
-    </div>
-  </div>
-
-  <!-- Hero -->
-  <div class="hero-box">
-    <div class="hero-emoji">🏔️</div>
-    <div class="hero-eyebrow">The Goal</div>
-    <div class="hero-title">Tour Transalp 2027</div>
-    <div class="hero-sub">With Kevin Boyd · As a team</div>
-    <div class="hero-stats">
-      <div>
-        <div class="hero-stat-value">320W</div>
-        <div class="hero-stat-label">FTP</div>
-      </div>
-      <div>
-        <div class="hero-stat-value">80kg</div>
-        <div class="hero-stat-label">Weight</div>
-      </div>
-      <div>
-        <div class="hero-stat-value">4.0</div>
-        <div class="hero-stat-label">W/kg</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Kevin -->
-  <div class="highlight-box" style="background:var(--card);border-color:var(--green);margin-top:16px;">
-    <div class="highlight-label" style="color:var(--green);">Team Dynamics — Kevin Boyd</div>
-    <div class="highlight-text" style="font-size:15px;line-height:1.7;">
-      Lighter rider (~70kg), currently fitter. You were historically stronger in absolute watts. Your 4.0 W/kg target closes the gap on Alpine climbs. You rode Chase the Sun 2023 together — 200 miles in a day. You know you can suffer side by side when it matters.
-    </div>
-  </div>
-
-  <!-- Descending -->
-  <div class="highlight-box" style="background:var(--card);border-color:var(--blue);margin-top:12px;">
-    <div class="highlight-label" style="color:var(--blue);">Descending Development</div>
-    <div class="highlight-text" style="font-size:15px;line-height:1.7;">
-      Box Hill, Leith Hill, Ranmore Common — repeat descents on every outdoor ride from now. Descending confidence after knee surgery takes deliberate, progressive exposure. Target: race-ready by March 2027. This is where significant time is won and lost at Transalp.
-    </div>
-  </div>
-
-</div>
-</div>
+<div class="toast" id="toast"></div>
 
 <script>
-  function switchTab(tabId, btn) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + tabId).classList.add('active');
-    btn.classList.add('active');
-    window.scrollTo(0, 0);
+// Storage
+const S = {
+  get: (k,d) => { try { const v=localStorage.getItem('ta27_'+k); return v?JSON.parse(v):d; } catch(e){ return d; }},
+  set: (k,v) => { try { localStorage.setItem('ta27_'+k,JSON.stringify(v)); } catch(e){}}
+};
+
+// State
+let wkOff=0, fdOff=0, selAT='🚴 Outdoor Ride', selMT='Breakfast';
+
+// Toast
+function toast(m,c='var(--green)'){
+  const t=document.getElementById('toast');
+  t.textContent=m; t.style.background=c;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+// Tab switch
+function sw(id,btn){
+  document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('scr').scrollTop=0;
+  if(id==='tracker') renderTracker();
+  if(id==='exercises') renderEx();
+  if(id==='activity') renderAct();
+  if(id==='food') renderFood();
+}
+
+// Card toggle
+function tog(card){
+  const b=card.querySelector('.cb'), c=card.querySelector('.chv'), o=b.classList.contains('open');
+  document.querySelectorAll('.cb').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.chv').forEach(x=>x.classList.remove('open'));
+  if(!o){b.classList.add('open');if(c)c.classList.add('open');}
+}
+
+// Header
+function updateHeader(){
+  const fh=S.get('ftp_hist',[]), wh=S.get('wt_hist',[]);
+  const ftp=fh.length?fh[fh.length-1].v:216;
+  const wt=wh.length?wh[wh.length-1].v:87;
+  document.getElementById('h-ftp').textContent=ftp+'W';
+  document.getElementById('h-weight').textContent=wt+'kg';
+  document.getElementById('h-wkg').textContent=(ftp/wt).toFixed(2);
+  const race=new Date('2027-06-14'), now=new Date();
+  const days=Math.ceil((race-now)/86400000);
+  document.getElementById('h-days').textContent=days>0?days:'🏁';
+}
+
+// Week helpers
+function wkKey(off){
+  const d=new Date(), day=d.getDay(), diff=d.getDate()-day+(day===0?-6:1);
+  d.setDate(diff+off*7);
+  return d.toISOString().slice(0,10);
+}
+function wkDates(off){
+  const d=new Date(), day=d.getDay(), diff=d.getDate()-day+(day===0?-6:1);
+  d.setDate(diff+off*7);
+  const s=new Date(d), e=new Date(d); e.setDate(e.getDate()+6);
+  return {s,e,k:s.toISOString().slice(0,10)};
+}
+function fmt(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
+
+// TRACKER
+const SESS=[
+  {id:'tue-vo2',n:'VO2 Max',d:'Garage Trainer · 45–60 min',c:'#e85d26',day:'TUE'},
+  {id:'tue-up',n:'Upper Body (eve)',d:'Garage with son · optional',c:'#27c97a',day:'TUE'},
+  {id:'wed-up',n:'Upper Body + Core',d:'Work Gym · 45 min',c:'#27c97a',day:'WED'},
+  {id:'wed-mtb',n:'MTB / CX',d:'With son · bonus session',c:'#4a9fd4',day:'WED'},
+  {id:'thu-ss',n:'Sweet Spot',d:'Garage Trainer · 60 min',c:'#f0a500',day:'THU'},
+  {id:'sat-ride',n:'Outdoor Ride',d:'North Downs · 2–4 hrs',c:'#4a9fd4',day:'SAT'},
+  {id:'sun-gym',n:'Lower Body',d:'Commercial Gym · 60 min',c:'#8b5cf6',day:'SUN'},
+];
+
+function chWk(d){wkOff+=d;renderTracker();}
+
+function togSess(wk,id){
+  const data=S.get('trk_'+wk,{});
+  if(data[id]) delete data[id];
+  else data[id]=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  S.set('trk_'+wk,data);
+  renderTracker();
+}
+
+function renderTracker(){
+  const {s,e,k}=wkDates(wkOff);
+  document.getElementById('wk-title').textContent=wkOff===0?'This Week':wkOff<0?Math.abs(wkOff)+' week'+(Math.abs(wkOff)>1?'s':'')+' ago':'Week of '+fmt(s);
+  document.getElementById('wk-dates').textContent=fmt(s)+' – '+fmt(e);
+  const data=S.get('trk_'+k,{});
+  const done=Object.keys(data).length, pct=Math.round(done/SESS.length*100);
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('wk-done').textContent=done+' of '+SESS.length+' done';
+  document.getElementById('wk-pct').textContent=pct+'%';
+  const cont=document.getElementById('session-rows'); cont.innerHTML='';
+  SESS.forEach(s=>{
+    const isDone=!!data[s.id];
+    const row=document.createElement('div');
+    row.className='srow'+(isDone?' done':'');
+    row.onclick=()=>togSess(k,s.id);
+    row.innerHTML=`<div class="scheck" style="${isDone?'border-color:var(--green);background:var(--green);':''}">${isDone?'✓':''}</div><div style="width:36px;font-family:var(--mono);font-size:11px;color:${s.c};letter-spacing:1px;">${s.day}</div><div style="flex:1;"><div style="font-size:15px;font-weight:600;">${s.n}</div><div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px;">${s.d}</div></div>${isDone&&data[s.id]?`<div style="font-family:var(--mono);font-size:10px;color:var(--muted);">${data[s.id]}</div>`:''}`;
+    cont.appendChild(row);
+  });
+  // Streaks
+  let streak=0,best=0,total=0;
+  for(let i=0;i>=-52;i--){
+    const {k:wk}=wkDates(i);
+    const wd=S.get('trk_'+wk,{});
+    const cnt=Object.keys(wd).length;
+    total+=cnt;
+    if(cnt>=3){streak++; if(streak>best)best=streak;}
+    else if(i<0) streak=0;
   }
-
-  function toggleCard(card) {
-    const body = card.querySelector('.card-body');
-    const chevron = card.querySelector('.chevron');
-    const isOpen = body.classList.contains('open');
-
-    // Close all
-    document.querySelectorAll('.card-body').forEach(b => b.classList.remove('open'));
-    document.querySelectorAll('.chevron').forEach(c => c.classList.remove('open'));
-    document.querySelectorAll('.card').forEach(c => {
-      const accent = c.style.borderLeftColor;
-      c.style.borderColor = 'var(--border)';
-      c.style.borderLeftColor = accent;
-    });
-
-    if (!isOpen) {
-      body.classList.add('open');
-      chevron.classList.add('open');
-      const accent = card.style.borderLeftColor;
-      card.style.borderColor = accent;
+  document.getElementById('st-streak').textContent=streak;
+  document.getElementById('st-best').textContent=best;
+  document.getElementById('st-total').textContent=total;
+  // History
+  const hist=document.getElementById('wk-history'); hist.innerHTML='';
+  let hasH=false;
+  for(let i=-1;i>=-16;i--){
+    const {s:ws,e:we,k:wk}=wkDates(i);
+    const wd=S.get('trk_'+wk,{});
+    if(Object.keys(wd).length>0){
+      hasH=true;
+      const wdone=Object.keys(wd).length;
+      const div=document.createElement('div'); div.className='hwk';
+      const dots=SESS.map(s=>`<div class="hdot" style="background:${wd[s.id]?s.c:'var(--border)'}"></div>`).join('');
+      div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><div style="font-family:var(--mono);font-size:11px;color:var(--muted);">${fmt(ws)} – ${fmt(we)}</div><div style="font-family:var(--mono);font-size:12px;color:${wdone>=5?'var(--green)':wdone>=3?'var(--gold)':'var(--muted)'};">${wdone}/${SESS.length}</div></div><div class="hdots">${dots}</div>`;
+      hist.appendChild(div);
     }
   }
-</script>
+  if(!hasH) hist.innerHTML='<div class="empty"><div class="ei2">📊</div>History builds as you tick off sessions</div>';
+}
 
+// EXERCISES
+const EX=[
+  {id:'lp-sl',n:'Single Leg Press (Bad)',u:'kg',s:'3×10',cat:'🦵 Knee Rehab'},
+  {id:'lp-dl',n:'Double Leg Press',u:'kg',s:'3×12',cat:'🦵 Knee Rehab'},
+  {id:'hack',n:'Hack / Belt Squat',u:'kg',s:'3×10',cat:'🦵 Knee Rehab'},
+  {id:'bss',n:'Bulgarian Split Squat',u:'kg',s:'3×8',cat:'🦵 Knee Rehab'},
+  {id:'sled',n:'Sled Push',u:'kg',s:'4×20m',cat:'🦵 Knee Rehab'},
+  {id:'calf',n:'Seated Calf Raise',u:'kg',s:'3×15',cat:'🦵 Knee Rehab'},
+  {id:'tke',n:'Terminal Knee Extension',u:'reps',s:'3×15',cat:'🦵 Knee Rehab'},
+  {id:'ohp',n:'Barbell Overhead Press',u:'kg',s:'3×8',cat:'💪 Upper Body'},
+  {id:'bbr',n:'Bent Over Barbell Row',u:'kg',s:'3×10',cat:'💪 Upper Body'},
+  {id:'cpd',n:'Cable Lat Pulldown',u:'kg',s:'3×12',cat:'💪 Upper Body'},
+  {id:'csr',n:'Cable Seated Row',u:'kg',s:'3×12',cat:'💪 Upper Body'},
+  {id:'dsp',n:'DB Shoulder Press',u:'kg',s:'3×10',cat:'💪 Upper Body'},
+  {id:'dip',n:'Assisted Dips',u:'reps',s:'3×max',cat:'💪 Upper Body'},
+  {id:'cur',n:'Dumbbell Curl',u:'kg',s:'3×12',cat:'💪 Upper Body'},
+  {id:'plk',n:'Plank',u:'sec',s:'3 sets',cat:'🧘 Core'},
+  {id:'pal',n:'Pallof Press',u:'kg',s:'3×12',cat:'🧘 Core'},
+  {id:'deb',n:'Dead Bugs',u:'reps',s:'3×10',cat:'🧘 Core'},
+  {id:'ftp',n:'FTP Test',u:'W',s:'20 min test',cat:'🚴 Cycling'},
+  {id:'wt',n:'Body Weight',u:'kg',s:'Morning',cat:'⚖️ Weight'},
+];
+
+function renderEx(){
+  const cont=document.getElementById('ex-list'); cont.innerHTML='';
+  let cat='';
+  EX.forEach(ex=>{
+    if(ex.cat!==cat){
+      cat=ex.cat;
+      const cl=document.createElement('div'); cl.className='sl'; cl.style.marginTop='16px'; cl.textContent=ex.cat;
+      cont.appendChild(cl);
+    }
+    const hist=S.get('ex_'+ex.id,[]);
+    const last=hist.length?hist[hist.length-1]:null;
+    const pb=hist.length?Math.max(...hist.map(h=>h.v)):null;
+    const div=document.createElement('div'); div.className='exrow';
+    div.innerHTML=`
+      <div class="exh" onclick="togEx(this)">
+        <div style="flex:1;"><div style="font-size:16px;font-weight:700;">${ex.n}</div><div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px;">${ex.s}${last?' · Last: '+last.v+ex.u+' ('+last.date+')':' · No logs yet'}</div></div>
+        ${pb?`<div style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--gold);">${pb}${ex.u}</div>`:''}
+        <span class="chv" style="margin-left:8px;">▼</span>
+      </div>
+      <div class="exb">
+        <div style="display:flex;gap:8px;margin-top:12px;">
+          <div style="flex:1;"><input class="linp" type="number" id="ei-${ex.id}" placeholder="0" step="${ex.u==='kg'?'2.5':'1'}"><div style="font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;margin-top:3px;">${ex.u}</div></div>
+          <button class="lbtn" onclick="logEx('${ex.id}','${ex.u}','${ex.n}')">LOG</button>
+        </div>
+        <div style="margin-top:12px;" id="eh-${ex.id}">
+          ${hist.slice(-8).reverse().map(h=>{const isPB=h.v===pb&&hist.length>1;return`<div class="hrow"><div style="font-family:var(--mono);font-size:11px;color:var(--muted);">${h.date}</div><div style="font-weight:700;">${h.v}${ex.u}${isPB?'<span class="pbb">PB</span>':''}</div></div>`;}).join('')}
+          ${hist.length===0?'<div style="font-family:var(--mono);font-size:12px;color:var(--muted);padding:8px 0;">No history yet — start logging</div>':''}
+        </div>
+      </div>`;
+    cont.appendChild(div);
+  });
+}
+
+function togEx(h){
+  const b=h.nextElementSibling, c=h.querySelector('.chv'), o=b.classList.contains('open');
+  document.querySelectorAll('.exb').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.exh .chv').forEach(x=>x.classList.remove('open'));
+  if(!o){b.classList.add('open');c.classList.add('open');}
+}
+
+function logEx(id,unit,name){
+  const inp=document.getElementById('ei-'+id);
+  const val=parseFloat(inp.value);
+  if(!val||val<=0){toast('Enter a value first','var(--accent)');return;}
+  const hist=S.get('ex_'+id,[]);
+  const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  hist.push({v:val,date:today,ts:Date.now()});
+  S.set('ex_'+id,hist);
+  const pb=Math.max(...hist.map(h=>h.v));
+  const isPB=val===pb&&hist.length>1;
+  toast(isPB?'🏆 New PB! '+val+unit:'✓ Logged '+val+unit, isPB?'var(--gold)':'var(--green)');
+  inp.value='';
+  // Update header stats for FTP and weight
+  if(id==='ftp'){const fh=S.get('ftp_hist',[]);fh.push({v:val,date:today});S.set('ftp_hist',fh);updateHeader();}
+  if(id==='wt'){const wh=S.get('wt_hist',[]);wh.push({v:val,date:today});S.set('wt_hist',wh);updateHeader();}
+  renderEx();
+}
+
+// ACTIVITY
+function selAct(btn){
+  document.querySelectorAll('.abtn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel'); selAT=btn.dataset.t;
+}
+function logAct(){
+  const dur=document.getElementById('a-dur').value;
+  const dist=document.getElementById('a-dist').value;
+  const note=document.getElementById('a-note').value;
+  if(!dur){toast('Enter duration','var(--accent)');return;}
+  const acts=S.get('acts',[]);
+  const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  acts.unshift({type:selAT,dur:parseInt(dur),dist:dist?parseFloat(dist):null,note:note||'',date:today,ts:Date.now()});
+  S.set('acts',acts.slice(0,200));
+  document.getElementById('a-dur').value='';
+  document.getElementById('a-dist').value='';
+  document.getElementById('a-note').value='';
+  toast('✓ Activity logged');
+  renderAct();
+}
+function delAct(i){
+  const acts=S.get('acts',[]); acts.splice(i,1); S.set('acts',acts); renderAct();
+}
+function renderAct(){
+  const acts=S.get('acts',[]);
+  const cont=document.getElementById('act-log');
+  if(!acts.length){cont.innerHTML='<div class="empty"><div class="ei2">🚴</div>Log your first activity above</div>';return;}
+  cont.innerHTML=acts.slice(0,40).map((a,i)=>`
+    <div class="aent">
+      <div style="font-size:22px;flex-shrink:0;">${a.type.split(' ')[0]}</div>
+      <div style="flex:1;">
+        <div style="font-size:15px;font-weight:600;">${a.type.split(' ').slice(1).join(' ')}</div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px;">${a.date} · ${a.dur}min${a.dist?' · '+a.dist+'km':''}${a.note?' · '+a.note:''}</div>
+      </div>
+      <button onclick="delAct(${i})" style="background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:4px;">✕</button>
+    </div>`).join('');
+}
+
+// FOOD
+function fdKey(off){const d=new Date();d.setDate(d.getDate()+off);return d.toISOString().slice(0,10);}
+function fdLabel(off){if(off===0)return'Today';if(off===-1)return'Yesterday';const d=new Date();d.setDate(d.getDate()+off);return d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short'});}
+function chFd(d){if(fdOff+d>0)return;fdOff+=d;renderFood();}
+function selMeal(btn){document.querySelectorAll('.mbtn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');selMT=btn.dataset.m;}
+function qf(n,p){document.getElementById('f-name').value=n;document.getElementById('f-prot').value=p;}
+function logFood(){
+  const n=document.getElementById('f-name').value.trim();
+  const p=parseInt(document.getElementById('f-prot').value);
+  if(!n||!p||p<0){toast('Enter food and protein amount','var(--accent)');return;}
+  const key=fdKey(fdOff);
+  const foods=S.get('fd_'+key,[]);
+  foods.push({n,p,m:selMT,ts:Date.now()});
+  S.set('fd_'+key,foods);
+  document.getElementById('f-name').value='';
+  document.getElementById('f-prot').value='';
+  toast('✓ +'+p+'g protein');
+  renderFood();
+}
+function delFood(key,i){
+  const foods=S.get('fd_'+key,[]); foods.splice(i,1); S.set('fd_'+key,foods); renderFood();
+}
+function renderFood(){
+  const key=fdKey(fdOff);
+  const foods=S.get('fd_'+key,[]);
+  const TARGET=150;
+  document.getElementById('fd-title').textContent=fdLabel(fdOff);
+  document.getElementById('fd-date').textContent=new Date(key+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+  const total=foods.reduce((s,f)=>s+f.p,0);
+  const meals=['Breakfast','Lunch','Snack','Dinner'];
+  const byM={};
+  meals.forEach(m=>byM[m]=foods.filter(f=>f.m===m).reduce((s,f)=>s+f.p,0));
+  // Ring
+  const pct=Math.min(total/TARGET,1);
+  const off=339.3-(pct*339.3);
+  document.getElementById('ring-v').textContent=total+'g';
+  const rf=document.getElementById('ring-f');
+  rf.style.strokeDashoffset=off;
+  rf.style.stroke=total>=TARGET?'var(--gold)':total>=TARGET*0.8?'var(--green)':total>=TARGET*0.5?'var(--blue)':'var(--muted)';
+  document.getElementById('pb-b').textContent=byM['Breakfast']+'g';
+  document.getElementById('pb-l').textContent=byM['Lunch']+'g';
+  document.getElementById('pb-s').textContent=byM['Snack']+'g';
+  document.getElementById('pb-d').textContent=byM['Dinner']+'g';
+  // Log
+  const logEl=document.getElementById('food-log');
+  logEl.innerHTML=foods.length?foods.map((f,i)=>`
+    <div class="fent">
+      <span class="fmbdg">${f.m.slice(0,4).toUpperCase()}</span>
+      <div style="flex:1;font-size:14px;line-height:1.3;">${f.n}</div>
+      <div style="font-family:var(--mono);font-size:15px;font-weight:700;color:var(--green);white-space:nowrap;">+${f.p}g</div>
+      <button onclick="delFood('${key}',${i})" style="background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;padding:4px;">✕</button>
+    </div>`).join('')
+    :'<div class="empty"><div class="ei2">🥗</div>Nothing logged yet<br>Use Quick Add or type below</div>';
+  // 7-day history
+  const hist=document.getElementById('food-hist'); hist.innerHTML='';
+  for(let i=-1;i>=-7;i--){
+    const dk=fdKey(i);
+    const df=S.get('fd_'+dk,[]);
+    const dt=df.reduce((s,f)=>s+f.p,0);
+    const d=new Date(dk+'T12:00:00');
+    const lbl=d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+    const bp=Math.min((dt/TARGET)*100,100);
+    hist.innerHTML+=`<div class="fhd"><div style="font-family:var(--mono);font-size:11px;color:var(--muted);min-width:75px;">${lbl}</div><div class="fhdb"><div class="fhdf" style="width:${bp}%;background:${dt>=TARGET?'var(--gold)':dt>=TARGET*0.8?'var(--green)':'var(--blue)'}"></div></div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:${dt>=TARGET?'var(--gold)':dt>=TARGET*0.8?'var(--green)':'var(--blue)'};min-width:45px;text-align:right;">${dt}g</div></div>`;
+  }
+}
+
+// Init
+updateHeader();
+renderFood();
+setInterval(updateHeader,60000);
+</script>
 </body>
 </html>
